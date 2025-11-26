@@ -1,2 +1,8 @@
 node_modules
 .idea
+# 所有 env 文件都忽略
+.env
+.env.*
+
+# 但可以保留示例文件（可选）
+!*.example
