@@ -5,6 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "dev:database-connect": "dotenvx run -- node ./src/utils/dbHelper.js",
+    "seed": "dotenvx run -- node ./src/scripts/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
