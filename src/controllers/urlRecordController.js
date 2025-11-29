@@ -85,5 +85,6 @@ export async function getAllUrlRecord(req, res) {
   return res.status(200).json({
     message: "urlRecords found",
     data: urlRecords,
+    total: urlRecords.length,
   })
 }
