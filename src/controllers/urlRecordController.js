@@ -78,3 +78,12 @@ export async function createUrlRecord(req, res) {
     data: createdUrlRecord,
   })
 }
+
+export async function getAllUrlRecord(req, res) {
+  const urlRecords = await URLRecord.findAll()
+
+  return res.status(200).json({
+    message: "urlRecords found",
+    data: urlRecords,
+  })
+}
