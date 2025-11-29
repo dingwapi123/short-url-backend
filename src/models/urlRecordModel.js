@@ -21,7 +21,7 @@ const URLRecord = sequelize.define("url_record", {
   },
   title: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
   },
   description: {
     type: DataTypes.TEXT,
