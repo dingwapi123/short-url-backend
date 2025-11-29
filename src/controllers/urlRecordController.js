@@ -5,7 +5,7 @@ import { generateShortUrl } from "../utils/urlHelper.js"
 // 创建短链记录
 export async function createUrlRecord(req, res) {
   // 从请求体中解构出原始 URL 和自定义短码
-  const { originalUrl, urlCode } = req.body
+  const { originalUrl, urlCode, title, description, category } = req.body
 
   // 校验原始 URL 是否为空
   if (!originalUrl) {
@@ -56,6 +56,9 @@ export async function createUrlRecord(req, res) {
       originalUrl,
       urlCode,
       shortUrl,
+      title,
+      description,
+      category,
     })
 
     return res.status(201).json({
@@ -71,6 +74,9 @@ export async function createUrlRecord(req, res) {
     originalUrl,
     shortUrl,
     urlCode: shortUrl.split("/").pop(),
+    title,
+    description,
+    category,
   })
 
   return res.status(201).json({
@@ -86,5 +92,41 @@ export async function getAllUrlRecord(req, res) {
     message: "urlRecords found",
     data: urlRecords,
     total: urlRecords.length,
+  })
+}
+
+// 删除短链
+export async function deleteUrlRecord(req, res) {
+  const { id } = req.params
+
+  const record = await URLRecord.findByPk(id)
+  if (!record) {
+    return res.status(404).json({ message: "Record not found" })
+  }
+
+  await record.destroy()
+  return res.status(200).json({ message: "Record deleted successfully" })
+}
+
+// 更新短链信息
+export async function updateUrlRecord(req, res) {
+  const { id } = req.params
+  const { title, description, category, isActive } = req.body
+
+  const record = await URLRecord.findByPk(id)
+  if (!record) {
+    return res.status(404).json({ message: "Record not found" })
+  }
+
+  // Only update allowed fields
+  if (title !== undefined) record.title = title
+  if (description !== undefined) record.description = description
+  if (category !== undefined) record.category = category
+
+  await record.save()
+
+  return res.status(200).json({
+    message: "Record updated successfully",
+    data: record,
   })
 }

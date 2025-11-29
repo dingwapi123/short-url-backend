@@ -19,6 +19,22 @@ const URLRecord = sequelize.define("url_record", {
     allowNull: false,
     unique: true,
   },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  category: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  visitCount: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
 })
 
 export default URLRecord
