@@ -111,11 +111,35 @@ export async function deleteUrlRecord(req, res) {
 // 更新短链信息
 export async function updateUrlRecord(req, res) {
   const { id } = req.params
-  const { title, description, category, isActive } = req.body
+  const { title, description, category, urlCode } = req.body
 
   const record = await URLRecord.findByPk(id)
   if (!record) {
     return res.status(404).json({ message: "Record not found" })
+  }
+
+  // Update urlCode if provided and different
+  if (urlCode !== undefined && urlCode !== record.urlCode) {
+    if (!urlCode || !urlCode.trim()) {
+      return res.status(400).json({ message: "urlCode cannot be empty" })
+    }
+
+    // Check if urlCode already exists
+    const existingRecord = await URLRecord.findOne({
+      where: {
+        urlCode,
+      },
+    })
+
+    if (existingRecord) {
+      return res.status(400).json({
+        message: "urlCode already exists",
+      })
+    }
+
+    record.urlCode = urlCode
+    // Regenerate shortUrl
+    record.shortUrl = await generateShortUrl(urlCode)
   }
 
   // Only update allowed fields
