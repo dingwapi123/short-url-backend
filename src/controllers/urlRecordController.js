@@ -86,12 +86,23 @@ export async function createUrlRecord(req, res) {
 }
 
 export async function getAllUrlRecord(req, res) {
-  const urlRecords = await URLRecord.findAll()
+  const page = parseInt(req.query.page) || 1
+  const limit = parseInt(req.query.pageSize) || 10
+  const offset = (page - 1) * limit
+
+  const { count, rows } = await URLRecord.findAndCountAll({
+    limit,
+    offset,
+    order: [["createdAt", "DESC"]], // Show newest first by default
+  })
 
   return res.status(200).json({
     message: "urlRecords found",
-    data: urlRecords,
-    total: urlRecords.length,
+    data: rows,
+    total: count,
+    page,
+    pageSize: limit,
+    totalPages: Math.ceil(count / limit),
   })
 }
 
