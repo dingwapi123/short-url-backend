@@ -10,7 +10,6 @@ const connectionString = process.env.DATABASE_URL
 const poolConfig = connectionString
   ? {
       connectionString,
-      ssl: { rejectUnauthorized: false }, // Required for Supabase
     }
   : {
       host: process.env.DB_HOST,
