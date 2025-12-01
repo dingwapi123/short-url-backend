@@ -24,17 +24,17 @@ pnpm install
 复制 `.env.example` 为 `.env` 并填入数据库配置：
 
 ```env
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=postgres-short-url
-DB_USER=postgres
-DB_PASSWORD=你的密码
-
-# 或者使用连接字符串（推荐用于 Supabase 等云数据库）
-DATABASE_URL=postgresql://user:pass@host:port/db
-
-PROJECT_URL=http://localhost:5173
+# 短链接长度配置（默认6位）
 SHORT_URL_LENGTH=6
+
+# 本地开发环境前端地址
+PROJECT_URL=http://localhost:5173
+# 线上生产环境前端地址
+# PROJECT_URL=https://your-frontend-domain.com
+
+# 数据库连接字符串
+# 格式: postgresql://user:password@host:port/database
+DATABASE_URL=postgresql://postgres:password@localhost:5432/postgres-short-url
 ```
 
 3. **数据库迁移**
@@ -59,16 +59,13 @@ pnpm start # 生产模式
 ### 1. 短链管理 (`/v1/urlRecord`)
 
 - **创建短链** (`POST /v1/urlRecord`)
-
   - Body: `{ "originalUrl": "https://example.com", "urlCode": "custom-code" }`
   - Response: `{ "message": "success", "data": { ... } }`
 
 - **获取所有短链** (`GET /v1/urlRecord`)
-
   - Query: `page=1&pageSize=10`
 
 - **更新短链** (`PUT /v1/urlRecord/:id`)
-
   - Body: `{ "title": "New Title", "urlCode": "new-code" }`
 
 - **删除短链** (`DELETE /v1/urlRecord/:id`)
@@ -77,7 +74,7 @@ pnpm start # 生产模式
 
 - **获取原始链接** (`GET /v1/:urlCode`)
   - Response: `{ "message": "success", "data": "original_url" }`
-  - _注：此接口返回原始链接，前端获取后进行跳转。_
+  - *注：此接口返回原始链接，前端获取后进行跳转。*
 
 ## 项目结构
 
