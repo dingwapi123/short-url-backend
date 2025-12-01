@@ -31,6 +31,6 @@ const transport = pino.transport({
 
 export const logger = pino(transport)
 
-export const pinoHttpMiddleware = pinoHttp({
+export const pinoHttpMiddleware = (pinoHttp as unknown as (opts: any) => any)({
   logger,
 })

@@ -1,4 +1,4 @@
-import { rateLimit } from "express-rate-limit"
+import { rateLimit } from "express-rate-limit";
 
 const rateLimiter = rateLimit({
   // 1 minute
@@ -7,6 +7,6 @@ const rateLimiter = rateLimit({
   limit: 15,
   // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
   standardHeaders: "draft-8",
-})
+});
 
-export default rateLimiter
+export default rateLimiter;
